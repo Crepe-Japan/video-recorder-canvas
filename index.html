@@ -1,33 +1,64 @@
 <html>
 
 <head>
+    <style>
+        body {
+            background: black;
+            color: #CCCCCC;
+        }
+
+        #c2 {
+            background-image: url(media/foo.png);
+            background-repeat: no-repeat;
+        }
+
+        div {
+            float: left;
+            border: 1px solid #444444;
+            padding: 10px;
+            margin: 10px;
+            background: #3B3B3B;
+        }
+    </style>
 
 </head>
 
 <body>
-    <div class="left">
+    <div>
+        <h2>Preview</h2>
+        <video id="preview" autoplay muted controls></video>
+        <br />
+        <br />
         <button id="startButton" class="button">
             Start Recording
         </button>
         <button id="stopButton" class="button">
             Stop Recording
         </button>
-        <h2>Preview</h2>
-        <video id="preview" width="320" height="240" autoplay muted></video>
     </div>
 
-    <div class="right">
-
+    <div>
         <h2>Recording</h2>
-        <video id="recording" width="320" height="240s" controls></video>
-        <a id="downloadButton" class="button">
-            Download
-        </a>
-        <p id="log"></p>
+        <video id="recording"  controls></video>
+        <br />
+        <br />
+        <button>
+            <a id="downloadButton" class="button">
+                Download
+            </a>
+        </button>
     </div>
+    <div>
+        <h2>Canvas</h2>
+        <canvas id="c1" ></canvas>
+    </div>
+
 
     <script src="capture.js">
     </script>
+        <script src="canvas-capture.js">
+        </script>
+
 </body>
 
 </html>

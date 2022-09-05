@@ -39,7 +39,7 @@ stopButton.addEventListener("click", () => {
 }, false);
 
 function log(msg) {
-    logElement.innerHTML += `${msg}\n`;
+    //logElement.innerHTML += `${msg}\n`;
 }
 
 function wait(delayInMS) {
@@ -77,5 +77,7 @@ function startRecording(stream, lengthInMS) {
 function stop(stream) {
     stream.getTracks().forEach((track) => track.stop());
 }
+
+
 
 
