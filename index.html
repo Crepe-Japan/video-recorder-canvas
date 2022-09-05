@@ -1,0 +1,33 @@
+<html>
+
+<head>
+
+</head>
+
+<body>
+    <div class="left">
+        <button id="startButton" class="button">
+            Start Recording
+        </button>
+        <button id="stopButton" class="button">
+            Stop Recording
+        </button>
+        <h2>Preview</h2>
+        <video id="preview" width="320" height="240" autoplay muted></video>
+    </div>
+
+    <div class="right">
+
+        <h2>Recording</h2>
+        <video id="recording" width="320" height="240s" controls></video>
+        <a id="downloadButton" class="button">
+            Download
+        </a>
+        <p id="log"></p>
+    </div>
+
+    <script src="capture.js">
+    </script>
+</body>
+
+</html>
