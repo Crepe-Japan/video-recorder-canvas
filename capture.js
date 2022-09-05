@@ -1,25 +1,28 @@
 let preview = document.getElementById("preview");
 let recording = document.getElementById("recording");
 let startButton = document.getElementById("startButton");
-let stopButton = document.getElementById("stopButton");
+let pauseButton = document.getElementById("pauseButton");
 let downloadButton = document.getElementById("downloadButton");
+let statusText = document.getElementById("status");
 let logElement = document.getElementById("log");
-const canvas = document.getElementById("c1");;
+const canvas = document.getElementById("c1");
+/* const cameraOptions = document.querySelector('.video-options>select'); */
+const cameraOptions = document.getElementById('camera-select');
 // Optional frames per second argument.
 const canvasStream = canvas.captureStream(25);
 
+
 let recordingTimeMS = 5000;
 
+window.addEventListener("DOMContentLoaded", () => {
+    startStream()
+})
+
 startButton.addEventListener("click", () => {
-    navigator.mediaDevices.getUserMedia({
-        video: true,
-        /*   audio: true */
-    }).then((stream) => {
-        preview.srcObject = stream;
-        downloadButton.href = stream;
-        /* preview.captureStream = preview.captureStream || preview.mozCaptureStream; */
-        return new Promise((resolve) => preview.onplaying = resolve);
-    }).then(() => startRecording(canvasStream, recordingTimeMS))
+    cameraOptions.disabled = true
+    pauseButton.disabled = true
+    statusText.innerHTML = 'Recording Started'
+    startRecording(canvasStream, recordingTimeMS)
         .then((recordedChunks) => {
             let recordedBlob = new Blob(recordedChunks, { type: "video/webm" });
             recording.src = URL.createObjectURL(recordedBlob);
@@ -37,9 +40,47 @@ startButton.addEventListener("click", () => {
         });
 }, false);
 
-stopButton.addEventListener("click", () => {
-    stop(preview.srcObject);
+pauseButton.addEventListener("click", () => {
+    /* stop(preview.srcObject); */
+    pause(preview)
+    cameraOptions.disabled = false
 }, false);
+
+cameraOptions.onchange = () => {
+    startStream()
+}
+
+const startStream = () => {
+    console.log("Start Stream")
+    navigator.mediaDevices.getUserMedia({
+        video: true,
+        deviceId: {
+            exact: cameraOptions.value
+        }
+        /*   audio: true */
+    }).then((stream) => {
+        preview.srcObject = stream;
+        downloadButton.href = stream;
+        /* preview.captureStream = preview.captureStream || preview.mozCaptureStream; */
+        return new Promise((resolve) => preview.onplaying = resolve);
+    })
+}
+
+const getCameraSelection = async () => {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    const videoDevices = devices.filter(device => device.kind === 'videoinput');
+
+    const options = videoDevices.map(videoDevice => {
+        return `<option value="${videoDevice.deviceId}">${videoDevice.label}</option>`;
+    });
+
+
+    cameraOptions.innerHTML = options.join('');
+
+};
+
+getCameraSelection();
+
 
 function log(msg) {
     //logElement.innerHTML += `${msg}\n`;
@@ -65,6 +106,9 @@ function startRecording(stream, lengthInMS) {
     let recorded = wait(lengthInMS).then(
         () => {
             if (recorder.state === "recording") {
+                cameraOptions.disabled = false
+                pauseButton.disabled = false
+                statusText.innerHTML = 'Recording Finished'
                 recorder.stop();
             }
         },
@@ -79,6 +123,13 @@ function startRecording(stream, lengthInMS) {
 
 function stop(stream) {
     stream.getTracks().forEach((track) => track.stop());
+}
+
+function pause(video) {
+    if (video.paused) {
+        video.load()
+    } else video.pause()
+
 }
 
 
