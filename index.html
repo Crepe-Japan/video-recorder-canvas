@@ -24,6 +24,7 @@
 </head>
 
 <body>
+    
     <div>
         <h2>Preview</h2>
         <video id="preview" autoplay muted controls></video>
@@ -36,10 +37,13 @@
             Stop Recording
         </button>
     </div>
-
-    <div hidden>
-        <h2>Recording</h2>
-        <video id="recording"  controls></video>
+    <div>
+        <h2>Canvas</h2>
+        <canvas id="c1"></canvas>
+    </div>
+    <div >
+        <h2>Recording (From Canvas)</h2>
+        <video id="recording" controls></video>
         <br />
         <br />
         <button>
@@ -48,16 +52,14 @@
             </a>
         </button>
     </div>
-    <div>
-        <h2>Canvas</h2>
-        <canvas id="c1" ></canvas>
-    </div>
-
-
+    
+   
     <script src="capture.js">
     </script>
-        <script src="canvas-capture.js">
-        </script>
+    <script src="canvas-stream.js">
+    </script>
+  <!--   <script src="canvas-recorder.js">
+    </script> -->
 
 </body>
 

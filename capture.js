@@ -4,6 +4,9 @@ let startButton = document.getElementById("startButton");
 let stopButton = document.getElementById("stopButton");
 let downloadButton = document.getElementById("downloadButton");
 let logElement = document.getElementById("log");
+const canvas = document.getElementById("c1");;
+// Optional frames per second argument.
+const canvasStream = canvas.captureStream(25);
 
 let recordingTimeMS = 5000;
 
@@ -14,9 +17,9 @@ startButton.addEventListener("click", () => {
     }).then((stream) => {
         preview.srcObject = stream;
         downloadButton.href = stream;
-        preview.captureStream = preview.captureStream || preview.mozCaptureStream;
+        /* preview.captureStream = preview.captureStream || preview.mozCaptureStream; */
         return new Promise((resolve) => preview.onplaying = resolve);
-    })/* .then(() => startRecording(preview.captureStream(), recordingTimeMS))
+    }).then(() => startRecording(canvasStream, recordingTimeMS))
         .then((recordedChunks) => {
             let recordedBlob = new Blob(recordedChunks, { type: "video/webm" });
             recording.src = URL.createObjectURL(recordedBlob);
@@ -31,7 +34,7 @@ startButton.addEventListener("click", () => {
             } else {
                 log(error);
             }
-        }); */
+        });
 }, false);
 
 stopButton.addEventListener("click", () => {
