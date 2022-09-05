@@ -13,8 +13,24 @@ const canvasStream = canvas.captureStream(25);
 
 
 let recordingTimeMS = 5000;
+const getCameraSelection = async () => {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    const videoDevices = devices.filter(device => device.kind === 'videoinput');
+
+    const options = videoDevices.map(videoDevice => {
+        return `<option value="${videoDevice.deviceId}">${videoDevice.label}</option>`;
+    });
+
+
+    cameraOptions.innerHTML = options.join('');
+
+
+};
+getCameraSelection()
+
 
 window.addEventListener("DOMContentLoaded", () => {
+    getCameraSelection();
     startStream()
 })
 
@@ -46,17 +62,16 @@ pauseButton.addEventListener("click", () => {
     cameraOptions.disabled = false
 }, false);
 
-cameraOptions.onchange = () => {
+/* cameraOptions.onchange = () => {
     startStream()
-}
+} */
 
 const startStream = () => {
     console.log("Start Stream")
+    getCameraSelection()
     navigator.mediaDevices.getUserMedia({
         video: true,
-        deviceId: {
-            exact: cameraOptions.value
-        }
+
         /*   audio: true */
     }).then((stream) => {
         preview.srcObject = stream;
@@ -66,20 +81,6 @@ const startStream = () => {
     })
 }
 
-const getCameraSelection = async () => {
-    const devices = await navigator.mediaDevices.enumerateDevices();
-    const videoDevices = devices.filter(device => device.kind === 'videoinput');
-
-    const options = videoDevices.map(videoDevice => {
-        return `<option value="${videoDevice.deviceId}">${videoDevice.label}</option>`;
-    });
-
-
-    cameraOptions.innerHTML = options.join('');
-
-};
-
-getCameraSelection();
 
 
 function log(msg) {
