@@ -24,32 +24,24 @@
 </head>
 
 <body>
-
+    
     <div>
-        <h2>Preview (From Camera)</h2>
+        <h2>Preview</h2>
         <video id="preview" autoplay muted controls></video>
         <br />
         <br />
         <button id="startButton" class="button">
             Start Recording
         </button>
-
-        <select name="" id="camera-select" class="custom-select">
-            <option value="">Select camera</option>
-        </select>
-        <label id="status" style="color: red"></label>
-        <br />
-        <button id="pauseButton" class="button">
-            Pause/Resume
+        <button id="stopButton" class="button">
+            Stop Recording
         </button>
-    </div>
-
     </div>
     <div>
         <h2>Canvas</h2>
         <canvas id="c1"></canvas>
     </div>
-    <div>
+    <div >
         <h2>Recording (From Canvas)</h2>
         <video id="recording" controls></video>
         <br />
@@ -60,13 +52,13 @@
             </a>
         </button>
     </div>
-
-
+    
+   
     <script src="capture.js">
     </script>
     <script src="canvas-stream.js">
     </script>
-    <!--   <script src="canvas-recorder.js">
+  <!--   <script src="canvas-recorder.js">
     </script> -->
 
 </body>
