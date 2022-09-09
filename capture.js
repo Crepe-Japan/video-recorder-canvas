@@ -13,13 +13,14 @@ let recordingTimeMS = 5000;
 startButton.addEventListener("click", () => {
     navigator.mediaDevices.getUserMedia({
         video: true,
-        /*   audio: true */
+        audio: true
     }).then((stream) => {
         preview.srcObject = stream;
         downloadButton.href = stream;
-        /* preview.captureStream = preview.captureStream || preview.mozCaptureStream; */
+        preview.captureStream = preview.captureStream || preview.mozCaptureStream;
+        /*  console.log(preview.canvasStream()) */
         return new Promise((resolve) => preview.onplaying = resolve);
-    }).then(() => startRecording(canvasStream, recordingTimeMS))
+    }).then(() => startRecording(preview.captureStream(), recordingTimeMS))
         .then((recordedChunks) => {
             let recordedBlob = new Blob(recordedChunks, { type: "video/webm" });
             recording.src = URL.createObjectURL(recordedBlob);
